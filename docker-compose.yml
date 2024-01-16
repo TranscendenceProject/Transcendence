@@ -1,0 +1,71 @@
+version: '3'
+
+services:
+  frontend:
+    depends_on:
+      - ts/back
+    networks:
+      - frontend
+      - backend
+    image: ts/front
+    build: ./Transcendence-front/frontend
+    container_name: ts-front
+    ports:
+      - "${FRONTEND_HTTP_PORT:-80}:3000"
+      - "${FRONTEND_HTTPS_PORT:-443}:3001"
+    volumes:
+      - ./Transcendence-front/frontend/public:/app/public
+  backend:
+    depends_on:
+      - db
+    networks:
+      - backend
+    image: ts/back
+    build: ./Transcendence-back
+    container_name: ts-back
+    ports:
+      - "${BACKEND_PORT:-8000}:8000"
+  db:
+    networks:
+      backend:
+        ipv4_address: 172.28.0.2
+    image: postgres
+    container_name: ts-db
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
+      POSTGRES_DB: ${POSTGRES_DB:-pg_db}
+      PGDATA: /data/postgres
+    volumes:
+      - db:/data/postgres
+      - db:/var/lib/postgresql/data
+  pgadmin:
+    depends_on:
+      - db
+    networks:
+      - backend
+    image: elestio/pgadmin
+    container_name: ts-pgadmin
+    ports:
+      - "${PGADMIN_PORT:-5050}:80"
+    environment:
+        PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+        PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+        PGADMIN_CONFIG_SERVER_MODE: 'False'
+    volumes:
+     - ./servers.json:/pgadmin4/servers.json
+     - pgadmin:/var/lib/pgadmin
+
+networks:
+  frontend:
+    driver: bridge
+  backend:
+    ipam:
+      config:
+        - subnet: 172.28.0.0/16
+
+volumes:
+  db:
+  pgadmin:
