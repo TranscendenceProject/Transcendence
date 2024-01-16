@@ -1,0 +1,6 @@
+[submodule "Transcendence-back"]
+	path = Transcendence-back
+	url = git@github.com:TranscendenceProject/Transcendence-back.git
+[submodule "Transcendence-front"]
+	path = Transcendence-front
+	url = git@github.com:TranscendenceProject/Transcendence-front.git
