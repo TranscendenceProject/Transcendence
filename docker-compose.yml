@@ -3,7 +3,7 @@ version: '3'
 services:
   frontend:
     depends_on:
-      - ts/back
+      - backend
     networks:
       - frontend
       - backend
