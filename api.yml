@@ -21,8 +21,23 @@ tags:
     externalDocs:
       description: Find out more
       url: http://swagger.io
+  - name: friends
+    description: 친구 추가/검색/리스트/삭제
+    externalDocs:
+      description: Find out more
+      url: http://swagger.io
+  - name: game
+    description: 게임 관련
+    externalDocs:
+      description: Find out more
+      url: http://swagger.io
+  - name: login log
+    description: 로그인 로그 관련
+    externalDocs:
+      description: Find out more
+      url: http://swagger.io
 paths:
-  /user/create/{code}:
+  /users/create/{code}:
     get:
       tags:
         - users
@@ -56,7 +71,7 @@ paths:
                     example: "aooiHO1U2HOIH12IHFKJADHSF"
         '400':
           description: Invalid status value
-  /user/verify:
+  /users/verify:
     post:
       tags:
         - users
@@ -91,20 +106,28 @@ paths:
                   jwt:
                     type: string
                     example: "ajfioanewgkadn.jaoeinfoaksnfawengo.oaienfoanpeijfnafghaporhgnjansdkjgbawegb"
+                  user_id:
+                    type: string
+                    example: "kafoeinfalksdnf"
         '400':
           description: Invalid status value
-  /user/info:
+  /users/info/{user_id}:
     get:
       security:
         - jwt: []
       tags:
         - users
-      summary: 유저 프로필 정보 보기
+      summary: 유저 프로필 정보 및 전적 보기
       description: |-
-        유저 프로필 정보 보기
-        
-        - _[TODO]: 다른 회원의 유저정보를 보고 싶을 수도 있으니까 `/user/info/{userId}`식으로 받아야 할 수도?_
-        - _[TODO]: auth가 필요한 건가?_
+        유저 프로필 정보 및 전적 보기
+      parameters:
+        - name: user_id
+          in: path
+          description: 유저 PK 값(XXXX인트라ID 아님XXXX!)
+          required: true
+          schema:
+            type: string
+            example: "pikachu"
       responses:
         '200':
           description: successful operation
@@ -128,8 +151,30 @@ paths:
                   bio:
                     type: string
                     example: ""
+                  histories:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        user_id:
+                          type: string
+                          example: "kjaeifsdfsdf"
+                        intra_id:
+                          type: string
+                          example: "raichu"
+                        start_time:
+                          type: string
+                          format: date-time
+                          example: "2024-01-19T17:32:28Z"
+                        score:
+                          type: integer
+                          example: 4
+                        score2:
+                          type: integer
+                          example: 7
         '400':
           description: Invalid status value
+  /users/info:
     post:
       security:
         - jwt: []
@@ -157,6 +202,9 @@ paths:
                 bio:
                   type: string
                   example: "삐까"
+                img_url:
+                  type: string
+                  example: "https://storage.transcendence.io/pikachu_thumbnail.png"
         required: true
       responses:
         '200':
@@ -166,24 +214,12 @@ paths:
               schema:
                 type: object
                 properties:
-                  user_id:
-                    type: string
-                    example: "kafoeinfalksdnf"
-                  intra_id:
-                    type: string
-                    example: "pikachu"
-                  name:
-                    type: string
-                    example: ""
-                  img_url:
-                    type: string
-                    example: "https://storage.transcendence.io/pikachu_thumbnail.png"
-                  bio:
-                    type: string
-                    example: ""
+                  {}
         '400':
-          description: Invalid status value
-  /user/info/image:
+          description: Client error
+        '500':
+          description: Server error
+  /users/info/image:
     post:
       security:
         - jwt: []
@@ -220,6 +256,140 @@ paths:
                   img_url:
                     type: string
                     example: "https://storage.transcendence.io/pikachu_thumbnail2.png"
+        '400':
+          description: Invalid status value
+  /friends/search:
+    get:
+      security:
+        - jwt: []
+      tags:
+        - friends
+      summary: 친구 검색
+      description: |-
+        해당 쿼리를 포함하는 모든 친구 검색
+      parameters:
+        - name: query
+          in: query
+          description: 인트라 아이디 쿼리
+          required: true
+          schema:
+            type: string
+            example: "intra_id_like"
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  friends:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        user_id:
+                          type: string
+                          example: "raichu"
+                        intra_id:
+                          type: string
+                          example: "raichu"
+                        login_status:
+                          type: boolean
+                          example: true
+        '400':
+          description: Invalid status value
+  /friends/list:
+    get:
+      security:
+        - jwt: []
+      tags:
+        - friends
+      summary: 친구 리스트 반환
+      description: |-
+        친구 리스트 반환
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  friends:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        user_id:
+                          type: string
+                          example: "raichu"
+                        intra_id:
+                          type: string
+                          example: "raichu"
+                        login_status:
+                          type: boolean
+                          example: true
+        '400':
+          description: Invalid status value
+  /friends/add:
+    post:
+      security:
+        - jwt: []
+      tags:
+        - friends
+      summary: 친구 추가
+      description: |-
+        친구 추가
+      parameters:
+        - name: user_id
+          in: query
+          description: 추가할 친구의 인트라 아이디
+          required: true
+          schema:
+            type: string
+            example: "kafoeinfalksdnf"
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user_id:
+                    type: string
+                    example: "kafoeinfalksdnf"
+        '400':
+          description: Invalid status value
+  /friends/delete:
+    delete:
+      security:
+        - jwt: []
+      tags:
+        - friends
+      summary: 친구 삭제
+      description: |-
+        친구 삭제
+      parameters:
+        - name: user_id
+          in: query
+          description: 삭제할 친구의 인트라 아이디
+          required: true
+          schema:
+            type: string
+            example: "kafoeinfalksdnf"
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user_id:
+                    type: string
+                    example: "kafoeinfalksdnf"
         '400':
           description: Invalid status value
 components:
