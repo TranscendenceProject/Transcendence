@@ -27,3 +27,14 @@ docker compose down
 2. 기본 비밀번호 설정 무시
 3. 좌측 서버 리스트에 트센 서버 클릭
 4. 비밀번호(기본값: `changeme`) 입력
+
+
+## [APIs](https://raw.githack.com/TranscendenceProject/Transcendence/main/swagger.html)
+
+#### Users API 
+
+![image](https://github.com/TranscendenceProject/Transcendence/assets/56729421/dab78f0d-2bb0-49a3-90a2-3ec07fe10f95)
+
+#### Friends API
+
+![image](https://github.com/TranscendenceProject/Transcendence/assets/56729421/d280f2dc-88b4-4b23-8d30-472e5fc3a293)
