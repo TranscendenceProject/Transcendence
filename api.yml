@@ -1,0 +1,230 @@
+openapi: 3.0.3
+info:
+  title: Transcendence
+  description: |-
+    Transcendence API 화이팅
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: apiteam@swagger.io
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+servers:
+  - url: localhost:80/api/v1
+tags:
+  - name: users
+    description: 유저/토큰/2FA 관련
+    externalDocs:
+      description: Find out more
+      url: http://swagger.io
+paths:
+  /user/create/{code}:
+    get:
+      tags:
+        - users
+      summary: 42로 로그인
+      description: |-
+        `42로 로그인` 및 `2FA` 요청
+        
+        백엔드에서는 프론트로부터 42에서 코드값 받아오면 2FA로 디비 생성,
+        OTP 번호를 해당 이메일로 발송
+      parameters:
+        - name: code
+          in: path
+          description: 42 로그인 API에서 제공받은 code
+          required: true
+          schema:
+            type: string
+            example: "code_from_42_login_api"
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "New User Created"
+                  access_token:
+                    type: string
+                    example: "aooiHO1U2HOIH12IHFKJADHSF"
+        '400':
+          description: Invalid status value
+  /user/verify:
+    post:
+      tags:
+        - users
+      summary: OTP 코드 검증
+      description: |-
+        `OTP` 코드 검증
+      requestBody:
+        description: OTP 검증을 위해서 필요한 정보
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                input_number:
+                  type: string
+                  example: "012345"
+                access_token:
+                  type: string
+                  example: "aooiHO1U2HOIH12IHFKJADHSF"
+        required: true
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "200 OK"
+                  jwt:
+                    type: string
+                    example: "ajfioanewgkadn.jaoeinfoaksnfawengo.oaienfoanpeijfnafghaporhgnjansdkjgbawegb"
+        '400':
+          description: Invalid status value
+  /user/info:
+    get:
+      security:
+        - jwt: []
+      tags:
+        - users
+      summary: 유저 프로필 정보 보기
+      description: |-
+        유저 프로필 정보 보기
+        
+        - _[TODO]: 다른 회원의 유저정보를 보고 싶을 수도 있으니까 `/user/info/{userId}`식으로 받아야 할 수도?_
+        - _[TODO]: auth가 필요한 건가?_
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user_id:
+                    type: string
+                    example: "kafoeinfalksdnf"
+                  intra_id:
+                    type: string
+                    example: "pikachu"
+                  name:
+                    type: string
+                    example: ""
+                  img_url:
+                    type: string
+                    example: "https://storage.transcendence.io/pikachu_thumbnail.png"
+                  bio:
+                    type: string
+                    example: ""
+        '400':
+          description: Invalid status value
+    post:
+      security:
+        - jwt: []
+      tags:
+        - users
+      summary: 유저 프로필 정보 수정
+      description: |-
+        유저 프로필 정보 수정
+      requestBody:
+        description: 수정할 유저 정보
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: string
+                  example: "kafoeinfalksdnf"
+                intra_id:
+                  type: string
+                  example: "pikachu"
+                name:
+                  type: string
+                  example: "피카츄라이츄츄"
+                bio:
+                  type: string
+                  example: "삐까"
+        required: true
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user_id:
+                    type: string
+                    example: "kafoeinfalksdnf"
+                  intra_id:
+                    type: string
+                    example: "pikachu"
+                  name:
+                    type: string
+                    example: ""
+                  img_url:
+                    type: string
+                    example: "https://storage.transcendence.io/pikachu_thumbnail.png"
+                  bio:
+                    type: string
+                    example: ""
+        '400':
+          description: Invalid status value
+  /user/info/image:
+    post:
+      security:
+        - jwt: []
+      tags:
+        - users
+      summary: 유저 프로필 사진 업로드
+      description: |-
+        유저 프로필 사진 업로드
+        
+        멀티파트 요청을 통해 사진을 서버로 보내면,  
+        서버에서는 원격 저장소에 사진파일을 저장하고, 그 경로를 디비에 저장해놓습니다.
+        
+        응답으로 원격저장소 경로 값을 받습니다.
+      requestBody:
+        content: 
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                profile_image:
+                  type: string
+                  format: base64
+            encoding:
+              profile_image:
+                contentType: image/png, image/jpeg, imgage/jpg, image/svg
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  img_url:
+                    type: string
+                    example: "https://storage.transcendence.io/pikachu_thumbnail2.png"
+        '400':
+          description: Invalid status value
+components:
+  securitySchemes:
+    jwt:
+      type: apiKey
+      in: cookie
+      name: JWT
