@@ -2,6 +2,13 @@
 
 ## Usage
 
+#### 서브모듈 업데이트
+
+```
+git submodule init
+git submodule update
+```
+
 #### 도커 실행
 
 ```
