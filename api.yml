@@ -111,7 +111,7 @@ paths:
                     example: "kafoeinfalksdnf"
         '400':
           description: Invalid status value
-  /users/info/{user_id}:
+  /users/info:
     get:
       security:
         - jwt: []
@@ -122,15 +122,25 @@ paths:
         유저 프로필 정보 및 전적 보기
       parameters:
         - name: user_id
-          in: path
-          description: 유저 PK 값(XXXX인트라ID 아님XXXX!)
-          required: true
+          in: query
+          description: |-
+            유저 PK 값(XXXX인트라ID 아님XXXX!)
+            
+            비워서 보내면 백엔드에서 토큰에서 `user_id` 유추
+          required: false
           schema:
             type: string
             example: "pikachu"
       responses:
         '200':
-          description: successful operation
+          description: |-
+            successful operation
+            
+            `game_result`: 게임 상태
+               - win
+               - loose
+               - win_by_other
+               - loose_by_other
           content:
             application/json:
               schema:
@@ -162,6 +172,9 @@ paths:
                         intra_id:
                           type: string
                           example: "raichu"
+                        name:
+                          type: string
+                          example: "raichuchu"
                         start_time:
                           type: string
                           format: date-time
@@ -169,18 +182,22 @@ paths:
                         score:
                           type: integer
                           example: 4
-                        score2:
+                        opponent_score:
                           type: integer
                           example: 7
+                        game_result:
+                          type: string
+                          enum: [win, loose, win_by_other, loose_by_other]
+                          example: win
         '400':
           description: Invalid status value
-  /users/info:
     post:
       security:
         - jwt: []
       tags:
         - users
       summary: 유저 프로필 정보 수정
+      operationId: postUserInfos
       description: |-
         유저 프로필 정보 수정
       requestBody:
@@ -295,6 +312,9 @@ paths:
                           type: string
                           example: "raichu"
                         login_status:
+                          type: boolean
+                          example: true
+                        is_friend:
                           type: boolean
                           example: true
         '400':
