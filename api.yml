@@ -237,7 +237,7 @@ paths:
           description: Client error
         '500':
           description: Server error
-  /users/info/image:
+  /users/info/update/image:
     post:
       security:
         - jwt: []
@@ -284,7 +284,7 @@ paths:
         - friends
       summary: 친구 검색
       description: |-
-        해당 쿼리를 포함하는 모든 친구 검색
+        해당 쿼리를 포함하는 모든 유저 검색
       parameters:
         - name: query
           in: query
@@ -301,7 +301,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  friends:
+                  users:
                     type: array
                     items:
                       type: object
