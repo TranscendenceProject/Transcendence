@@ -417,5 +417,5 @@ components:
   securitySchemes:
     jwt:
       type: apiKey
-      in: cookie
+      in: header
       name: JWT
