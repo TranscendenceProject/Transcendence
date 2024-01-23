@@ -11,8 +11,8 @@ services:
     build: ./Transcendence-front
     container_name: ts-front
     ports:
-      - "${FRONTEND_HTTP_PORT:-80}:3000"
-      - "${FRONTEND_HTTPS_PORT:-443}:3001"
+      - "${FRONTEND_HTTP_PORT:-3000}:3000"
+      - "${FRONTEND_HTTPS_PORT:-443}:3000"
     volumes:
       - ./Transcendence-front/public:/app/public
       - ./Transcendence-front/src:/app/src
