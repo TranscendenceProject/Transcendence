@@ -14,7 +14,7 @@ externalDocs:
   description: Find out more about Swagger
   url: http://swagger.io
 servers:
-  - url: localhost:8000/
+  - url: http://localhost:8000/
 tags:
   - name: users
     description: 유저/토큰/2FA 관련
