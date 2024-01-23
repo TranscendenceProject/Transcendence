@@ -37,7 +37,7 @@ tags:
       description: Find out more
       url: http://swagger.io
 paths:
-  /users/create/{code}:
+  /users/login/create/{code}:
     get:
       tags:
         - users
@@ -71,7 +71,7 @@ paths:
                     example: "aooiHO1U2HOIH12IHFKJADHSF"
         '400':
           description: Invalid status value
-  /users/verify:
+  /users/login/verify:
     post:
       tags:
         - users
@@ -111,7 +111,7 @@ paths:
                     example: "kafoeinfalksdnf"
         '400':
           description: Invalid status value
-  /users/info:
+  /users/info/read:
     get:
       security:
         - jwt: []
@@ -121,12 +121,12 @@ paths:
       description: |-
         유저 프로필 정보 및 전적 보기
       parameters:
-        - name: user_id
+        - name: target_pk_id
           in: query
           description: |-
             유저 PK 값(XXXX인트라ID 아님XXXX!)
             
-            비워서 보내면 백엔드에서 토큰에서 `user_id` 유추
+            비워서 보내면 백엔드에서 토큰에서 `target_pk_id` 유추
           required: false
           schema:
             type: string
@@ -146,16 +146,16 @@ paths:
               schema:
                 type: object
                 properties:
-                  user_id:
+                  intra_pk_id:
                     type: string
                     example: "kafoeinfalksdnf"
                   intra_id:
                     type: string
                     example: "pikachu"
-                  name:
+                  nick_name:
                     type: string
                     example: ""
-                  img_url:
+                  profile_picture:
                     type: string
                     example: "https://storage.transcendence.io/pikachu_thumbnail.png"
                   bio:
@@ -191,6 +191,7 @@ paths:
                           example: win
         '400':
           description: Invalid status value
+  /users/info/update:
     post:
       security:
         - jwt: []
@@ -207,21 +208,21 @@ paths:
             schema:
               type: object
               properties:
-                user_id:
+                intra_pk_id:
                   type: string
                   example: "kafoeinfalksdnf"
                 intra_id:
                   type: string
                   example: "pikachu"
-                name:
+                nick_name:
                   type: string
                   example: "피카츄라이츄츄"
+                profile_picture:
+                  type: string
+                  example: "https://storage.transcendence.io/pikachu_thumbnail.png"
                 bio:
                   type: string
                   example: "삐까"
-                img_url:
-                  type: string
-                  example: "https://storage.transcendence.io/pikachu_thumbnail.png"
         required: true
       responses:
         '200':
