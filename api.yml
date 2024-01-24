@@ -349,7 +349,7 @@ paths:
                           type: string
                           example: "110202"
                         friend_name:
-                          type: string
+                          type: string
                           example: "42인트라 아이디"
                         login_status:
                           type: boolean
