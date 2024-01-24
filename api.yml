@@ -106,7 +106,7 @@ paths:
                   jwt:
                     type: string
                     example: "ajfioanewgkadn.jaoeinfoaksnfawengo.oaienfoanpeijfnafghaporhgnjansdkjgbawegb"
-                  user_id:
+                  intra_pk_id:
                     type: string
                     example: "kafoeinfalksdnf"
         '400':
@@ -166,7 +166,7 @@ paths:
                     items:
                       type: object
                       properties:
-                        user_id:
+                        intra_pk_id:
                           type: string
                           example: "kjaeifsdfsdf"
                         intra_id:
@@ -366,9 +366,9 @@ paths:
       description: |-
         친구 추가
       parameters:
-        - name: user_id
+        - name: intra_pk_id
           in: query
-          description: 추가할 친구의 인트라 아이디
+          description: 추가할 친구의 인트라 PK 값
           required: true
           schema:
             type: string
@@ -396,9 +396,9 @@ paths:
       description: |-
         친구 삭제
       parameters:
-        - name: user_id
+        - name: intra_pk_id
           in: query
-          description: 삭제할 친구의 인트라 아이디
+          description: 삭제할 친구의 인트라 PK 값
           required: true
           schema:
             type: string
@@ -411,7 +411,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  user_id:
+                  intra_pk_id:
                     type: string
                     example: "kafoeinfalksdnf"
         '400':
