@@ -306,12 +306,15 @@ paths:
                     items:
                       type: object
                       properties:
-                        user_id:
+                        intra_pk_id:
                           type: string
-                          example: "raichu"
+                          example: "110202"
                         intra_id:
                           type: string
-                          example: "raichu"
+                          example: "42인트라 아이디"
+                        nick_name:
+                          type: string
+                          example: "수정가능한 닉네임"
                         login_status:
                           type: boolean
                           example: true
@@ -342,12 +345,12 @@ paths:
                     items:
                       type: object
                       properties:
-                        user_id:
+                        intra_pk_id:
                           type: string
-                          example: "raichu"
-                        intra_id:
-                          type: string
-                          example: "raichu"
+                          example: "110202"
+                        friend_name:
+                          type: string
+                          example: "42인트라 아이디"
                         login_status:
                           type: boolean
                           example: true
@@ -378,9 +381,9 @@ paths:
               schema:
                 type: object
                 properties:
-                  user_id:
+                  message:
                     type: string
-                    example: "kafoeinfalksdnf"
+                    example: "ejachoi가 성공적으로 seonghwc를 친구로 등록하였습니다."
         '400':
           description: Invalid status value
   /friends/delete:
