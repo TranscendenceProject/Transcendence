@@ -276,7 +276,7 @@ paths:
                     example: "https://storage.transcendence.io/pikachu_thumbnail2.png"
         '400':
           description: Invalid status value
-  /friends/search:
+  /users/info/search:
     get:
       security:
         - jwt: []
