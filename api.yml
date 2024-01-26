@@ -31,7 +31,7 @@ tags:
     externalDocs:
       description: Find out more
       url: http://swagger.io
-  - name: login log
+  - name: loginHistories
     description: 로그인 로그 관련
     externalDocs:
       description: Find out more
@@ -416,6 +416,30 @@ paths:
                     example: "kafoeinfalksdnf"
         '400':
           description: Invalid status value
+  /loginHistories/create:
+    post:
+      security:
+        - jwt: []
+      tags:
+        - loginHistories
+      summary: 로그인 중 
+      description: |-
+        로그인 중 (5초마다 프론트에서 백으로 날림)
+      responses:
+        '201':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Login 정보를 성공적으로 저장했습니다."
+        '400':
+          description: 디코딩 실패 혹은 JWT 토큰이 포함되지 않은 경우
+        '401':
+          description: JWT 토큰 만료
 components:
   securitySchemes:
     jwt:
