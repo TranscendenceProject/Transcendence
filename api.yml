@@ -172,7 +172,7 @@ paths:
                         intra_id:
                           type: string
                           example: "raichu"
-                        name:
+                        nick_name:
                           type: string
                           example: "raichuchu"
                         start_time:
@@ -190,7 +190,11 @@ paths:
                           enum: [win, loose, win_by_other, loose_by_other]
                           example: win
         '400':
-          description: Invalid status value
+          description: 디코딩 실패 혹은 JWT 토큰이 포함되지 않은 경우
+        '401':
+          description: JWT 토큰 만료
+        '500':
+          description: 서버오류
   /users/info/update:
     post:
       security:
@@ -234,9 +238,11 @@ paths:
                 properties:
                   {}
         '400':
-          description: Client error
+          description: 디코딩 실패 혹은 JWT 토큰이 포함되지 않은 경우
+        '401':
+          description: JWT 토큰 만료
         '500':
-          description: Server error
+          description: 서버오류
   /users/info/update/image:
     post:
       security:
@@ -275,7 +281,11 @@ paths:
                     type: string
                     example: "https://storage.transcendence.io/pikachu_thumbnail2.png"
         '400':
-          description: Invalid status value
+          description: 디코딩 실패 혹은 JWT 토큰이 포함되지 않은 경우
+        '401':
+          description: JWT 토큰 만료
+        '500':
+          description: 서버오류
   /users/info/search:
     get:
       security:
@@ -286,22 +296,22 @@ paths:
       description: |-
         해당 쿼리를 포함하는 모든 유저 검색
       parameters:
-        - name: query
+        - name: key_word
           in: query
-          description: 인트라 아이디 쿼리
+          description: 인트라 아이디 쿼리(키워드)
           required: true
           schema:
             type: string
             example: "intra_id_like"
       responses:
         '200':
-          description: successful operation
+          description: successful operation (유저 못찾을 경우 빈 리스트 반환)
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  users:
+                  user_profiles:
                     type: array
                     items:
                       type: object
@@ -315,14 +325,18 @@ paths:
                         nick_name:
                           type: string
                           example: "수정가능한 닉네임"
-                        login_status:
+                        is_login:
                           type: boolean
                           example: true
                         is_friend:
                           type: boolean
                           example: true
         '400':
-          description: Invalid status value
+          description: 디코딩 실패 혹은 JWT 토큰이 포함되지 않은 경우
+        '401':
+          description: JWT 토큰 만료
+        '500':
+          description: 서버오류
   /friends/list:
     get:
       security:
@@ -351,11 +365,15 @@ paths:
                         friend_name:
                           type: string
                           example: "42인트라 아이디"
-                        login_status:
+                        is_login:
                           type: boolean
                           example: true
         '400':
-          description: Invalid status value
+          description: 디코딩 실패 혹은 JWT 토큰이 포함되지 않은 경우
+        '401':
+          description: JWT 토큰 만료
+        '500':
+          description: 서버오류
   /friends/add:
     post:
       security:
@@ -366,13 +384,13 @@ paths:
       description: |-
         친구 추가
       parameters:
-        - name: intra_pk_id
+        - name: friend_intra_pk_id
           in: query
           description: 추가할 친구의 인트라 PK 값
           required: true
           schema:
             type: string
-            example: "kafoeinfalksdnf"
+            example: "seonghwc"
       responses:
         '200':
           description: successful operation
@@ -385,7 +403,13 @@ paths:
                     type: string
                     example: "ejachoi가 성공적으로 seonghwc를 친구로 등록하였습니다."
         '400':
-          description: Invalid status value
+          description: 디코딩 실패 혹은 JWT 토큰이 포함되지 않은 경우
+        '401':
+          description: JWT 토큰 만료
+        '404':
+          description: 없는 pk값
+        '500':
+          description: 서버오류
   /friends/delete:
     delete:
       security:
@@ -396,13 +420,13 @@ paths:
       description: |-
         친구 삭제
       parameters:
-        - name: intra_pk_id
+        - name: friend_intra_pk_id
           in: query
           description: 삭제할 친구의 인트라 PK 값
           required: true
           schema:
             type: string
-            example: "kafoeinfalksdnf"
+            example: "seonghwc"
       responses:
         '200':
           description: successful operation
@@ -413,9 +437,15 @@ paths:
                 properties:
                   intra_pk_id:
                     type: string
-                    example: "kafoeinfalksdnf"
+                    example: "ejachoi가 성공적으로 seonghwc를 성공적으로로 삭제하였습니다."
         '400':
-          description: Invalid status value
+          description: 디코딩 실패 혹은 JWT 토큰이 포함되지 않은 경우
+        '401':
+          description: JWT 토큰 만료
+        '404':
+          description: 없는 pk값
+        '500':
+          description: 서버오류
   /loginHistories/create:
     post:
       security:
@@ -440,6 +470,8 @@ paths:
           description: 디코딩 실패 혹은 JWT 토큰이 포함되지 않은 경우
         '401':
           description: JWT 토큰 만료
+        '500':
+          description: 서버오류
 components:
   securitySchemes:
     jwt:
