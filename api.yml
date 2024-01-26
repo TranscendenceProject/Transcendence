@@ -71,6 +71,8 @@ paths:
                     example: "aooiHO1U2HOIH12IHFKJADHSF"
         '400':
           description: Invalid status value
+        '500':
+          description: 서버에러
   /users/login/verify:
     post:
       tags:
@@ -102,15 +104,14 @@ paths:
                 properties:
                   status:
                     type: string
-                    example: "200 OK"
-                  jwt:
+                    example: "OK"
+                  jwt_token:
                     type: string
                     example: "ajfioanewgkadn.jaoeinfoaksnfawengo.oaienfoanpeijfnafghaporhgnjansdkjgbawegb"
-                  intra_pk_id:
-                    type: string
-                    example: "kafoeinfalksdnf"
         '400':
           description: Invalid status value
+        '500':
+          description: 서버에러
   /users/info/read:
     get:
       security:
@@ -193,6 +194,8 @@ paths:
           description: 디코딩 실패 혹은 JWT 토큰이 포함되지 않은 경우
         '401':
           description: JWT 토큰 만료
+        '404':
+          description: target_pk_id 값 이상한 경우
         '500':
           description: 서버오류
   /users/info/update:
@@ -206,18 +209,18 @@ paths:
       description: |-
         유저 프로필 정보 수정
       requestBody:
-        description: 수정할 유저 정보
+        description: |-
+          수정할 유저 정보
+          
+          바꾸고 싶은 정보만 기입하면 됨(필요없는 키값 사용 안 해도됨)
+          - `nick_name`: (optional)
+          - `profile_picture`: (optional)
+          - `bio`: (optional)
         content:
           application/json:
             schema:
               type: object
               properties:
-                intra_pk_id:
-                  type: string
-                  example: "kafoeinfalksdnf"
-                intra_id:
-                  type: string
-                  example: "pikachu"
                 nick_name:
                   type: string
                   example: "피카츄라이츄츄"
@@ -236,7 +239,49 @@ paths:
               schema:
                 type: object
                 properties:
-                  {}
+                  intra_pk_id:
+                    type: string
+                    example: "kafoeinfalksdnf"
+                  intra_id:
+                    type: string
+                    example: "pikachu"
+                  nick_name:
+                    type: string
+                    example: ""
+                  profile_picture:
+                    type: string
+                    example: "https://storage.transcendence.io/pikachu_thumbnail.png"
+                  bio:
+                    type: string
+                    example: ""
+                  histories:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        intra_pk_id:
+                          type: string
+                          example: "kjaeifsdfsdf"
+                        intra_id:
+                          type: string
+                          example: "raichu"
+                        nick_name:
+                          type: string
+                          example: "raichuchu"
+                        start_time:
+                          type: string
+                          format: date-time
+                          example: "2024-01-19T17:32:28Z"
+                        score:
+                          type: integer
+                          example: 4
+                        opponent_score:
+                          type: integer
+                          example: 7
+                        game_result:
+                          type: string
+                          enum: [win, loose, win_by_other, loose_by_other]
+                          example: win
         '400':
           description: 디코딩 실패 혹은 JWT 토큰이 포함되지 않은 경우
         '401':
@@ -277,9 +322,9 @@ paths:
               schema:
                 type: object
                 properties:
-                  img_url:
+                  file_url:
                     type: string
-                    example: "https://storage.transcendence.io/pikachu_thumbnail2.png"
+                    example: "/media/pikachu_thumbnail2.jpeg"
         '400':
           description: 디코딩 실패 혹은 JWT 토큰이 포함되지 않은 경우
         '401':
@@ -291,7 +336,7 @@ paths:
       security:
         - jwt: []
       tags:
-        - friends
+        - users
       summary: 친구 검색
       description: |-
         해당 쿼리를 포함하는 모든 유저 검색
