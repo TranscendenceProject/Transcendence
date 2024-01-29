@@ -31,6 +31,8 @@ docker compose down
 
 ## [APIs](https://raw.githack.com/TranscendenceProject/Transcendence/main/swagger.html)
 
+### REST API
+
 #### Users API 
 
 ![image](https://github.com/TranscendenceProject/Transcendence/assets/56729421/dab78f0d-2bb0-49a3-90a2-3ec07fe10f95)
@@ -38,3 +40,5 @@ docker compose down
 #### Friends API
 
 ![image](https://github.com/TranscendenceProject/Transcendence/assets/56729421/d280f2dc-88b4-4b23-8d30-472e5fc3a293)
+
+### [Socket API](https://celestial-locust-55b.notion.site/Socket-API-e1abd26c600e478ea2a035ff869aa19a)
