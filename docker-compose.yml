@@ -13,6 +13,12 @@ services:
     ports:
       - "${FRONTEND_HTTP_PORT:-3000}:3000"
       - "${FRONTEND_HTTPS_PORT:-443}:3000"
+    environment:
+      TS_HTTP_PROTOCOL: "${TS_HTTP_PROTOCOL:-http}"
+      TS_SOCKET_PROTOCOL: "${TS_SOCKET_PROTOCOL:-ws}"
+      TS_HOST_IP: "${TS_HOST_IP:-127.0.0.1}"
+      TS_SERVER_PORT: "${TS_SERVER_PORT:-8000}"
+      TS_OAUTH_URL: "${TS_OAUTH_URL:-https://api.intra.42.fr/oauth/authorize?client_id=u-s4t2ud-b677e803809d207e81ae3a321bdf542af8d318ca330d81824e4b972bca224918&redirect_uri=http%3A%2F%2F127.0.0.1%3A3000&response_type=code}"
     volumes:
       - ./Transcendence-front/public:/app/public
       - ./Transcendence-front/src:/app/src
@@ -28,6 +34,22 @@ services:
     container_name: ts-back
     ports:
       - "${BACKEND_PORT:-8000}:8000"
+    environment:
+      SECRET_KEY: "${SECRET_KEY:-django-insecure-s9976%^!b_4zlbp%$$zrqd-d&7&wp4)7=$$&)@8u6_)1g9f%ax_i}"
+      FT_CLIENT_ID: "${FT_CLIENT_ID:-u-s4t2ud-b677e803809d207e81ae3a321bdf542af8d318ca330d81824e4b972bca224918}"
+      FT_CLIENT_SECRET: "${FT_CLIENT_SECRET:-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}"
+      HTTP_PROTOCOL: "${HTTP_PROTOCOL:-http}"
+      FRONT_IP: "${FRONT_IP:-127.0.0.1}"
+      FRONT_PORT: "${FRONT_PORT:-3000}"
+      DATABASE_NAME: "${DATABASE_NAME:-pikapong}"
+      DATABASE_USER: "${DATABASE_USER:-admin}"
+      DATABASE_PASSWORD: "${DATABASE_PASSWORD:-admin}"
+      DATABASE_HOST: "${DATABASE_HOST:-localhost}"
+      DATABASE_PORT: "${DATABASE_PORT:-5432}"
+      EMAIL_HOST: "${EMAIL_HOST:-smtp.gmail.com}"
+      EMAIL_PORT: "${EMAIL_PORT:-587}"
+      EMAIL_HOST_USER: "${EMAIL_HOST_USER:-ejae8319@gmail.com}"
+      EMAIL_HOST_PASSWORD: "${EMAIL_HOST_PASSWORD:-rvxv gbut xibt czts}"
   db:
     networks:
       backend:
@@ -35,11 +57,11 @@ services:
     image: postgres
     container_name: ts-db
     ports:
-      - "${POSTGRES_PORT:-5432}:5432"
+      - "${DATABASE_PORT:-5432}:5432"
     environment:
-      POSTGRES_USER: ${POSTGRES_USER:-postgres}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
-      POSTGRES_DB: ${POSTGRES_DB:-pg_db}
+      POSTGRES_USER: ${DATABASE_USER:-admin}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD:-admin}
+      POSTGRES_DB: ${DATABASE_NAME:-pikapong}
       PGDATA: /data/postgres
     volumes:
       - db:/data/postgres
