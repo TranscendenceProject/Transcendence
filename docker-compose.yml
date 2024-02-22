@@ -15,7 +15,7 @@ services:
     environment:
       TS_HTTP_PROTOCOL: "${TS_HTTP_PROTOCOL:-https}"
       TS_SOCKET_PROTOCOL: "${TS_SOCKET_PROTOCOL:-wss}"
-      TS_HOST_IP: "${TS_HOST_IP:-10.13.8.5}"
+      TS_HOST_IP: "${TS_HOST_IP}"
       TS_SERVER_PORT: "${TS_SERVER_PORT:-8000}"
       TS_OAUTH_URL: "${TS_OAUTH_URL:-https://api.intra.42.fr/oauth/authorize?client_id=u-s4t2ud-d831bcb04e1f0e902f816b73f9472d53c10e56f908b04722099ac3db9c9c8209&redirect_uri=https%3A%2F%2F10.13.8.5%3A443&response_type=code}"
       TS_WEB_SERVER_PORT: "${TS_WEB_SERVER_PORT:-443}"
@@ -24,6 +24,7 @@ services:
       - ./Transcendence-front/src:/app/src
       - ./Transcendence-front/package.json:/app/package.json
       - ./Transcendence-front/vite.config.js:/app/vite.config.js
+      - ./Transcendence-front/../tls:/app/tls/
   backend:
     depends_on:
       - db
@@ -40,7 +41,7 @@ services:
       FT_CLIENT_ID: "${FT_CLIENT_ID:-u-s4t2ud-d831bcb04e1f0e902f816b73f9472d53c10e56f908b04722099ac3db9c9c8209}"
       FT_CLIENT_SECRET: "${FT_CLIENT_SECRET:-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}"
       HTTP_PROTOCOL: "${HTTP_PROTOCOL:-https}"
-      FRONT_IP: "${FRONT_IP:-10.13.8.5}"
+      FRONT_IP: "${FRONT_IP}"
       FRONT_PORT: "${FRONT_PORT:-443}"
       DATABASE_NAME: "${DATABASE_NAME:-pikapong}"
       DATABASE_USER: "${DATABASE_USER:-admin}"
@@ -51,6 +52,8 @@ services:
       EMAIL_PORT: "${EMAIL_PORT:-587}"
       EMAIL_HOST_USER: "${EMAIL_HOST_USER:-ejae8319@gmail.com}"
       EMAIL_HOST_PASSWORD: "${EMAIL_HOST_PASSWORD:-rvxv gbut xibt czts}"
+    volumes:
+      - ./Transcendence-back/../tls:/reminder/tls/
   db:
     networks:
       backend:
