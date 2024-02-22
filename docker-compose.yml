@@ -11,15 +11,14 @@ services:
     build: ./Transcendence-front
     container_name: ts-front
     ports:
-      - "${FRONTEND_HTTP_PORT:-3000}:3000"
-      - "${FRONTEND_HTTPS_PORT:-443}:3000"
+      - "${FRONTEND_HTTPS_PORT:-443}:443"
     environment:
-      TS_HTTP_PROTOCOL: "${TS_HTTP_PROTOCOL:-http}"
-      TS_SOCKET_PROTOCOL: "${TS_SOCKET_PROTOCOL:-ws}"
-      TS_HOST_IP: "${TS_HOST_IP:-localhost}"
+      TS_HTTP_PROTOCOL: "${TS_HTTP_PROTOCOL:-https}"
+      TS_SOCKET_PROTOCOL: "${TS_SOCKET_PROTOCOL:-wss}"
+      TS_HOST_IP: "${TS_HOST_IP:-10.13.8.5}"
       TS_SERVER_PORT: "${TS_SERVER_PORT:-8000}"
-      TS_OAUTH_URL: "${TS_OAUTH_URL:-https://api.intra.42.fr/oauth/authorize?client_id=u-s4t2ud-b677e803809d207e81ae3a321bdf542af8d318ca330d81824e4b972bca224918&redirect_uri=http%3A%2F%2F127.0.0.1%3A3000&response_type=code}"
-      TS_WEB_SERVER_PORT: "${TS_WEB_SERVER_PORT:-3000}"
+      TS_OAUTH_URL: "${TS_OAUTH_URL:-https://api.intra.42.fr/oauth/authorize?client_id=u-s4t2ud-d831bcb04e1f0e902f816b73f9472d53c10e56f908b04722099ac3db9c9c8209&redirect_uri=https%3A%2F%2F10.13.8.5%3A443&response_type=code}"
+      TS_WEB_SERVER_PORT: "${TS_WEB_SERVER_PORT:-443}"
     volumes:
       - ./Transcendence-front/public:/app/public
       - ./Transcendence-front/src:/app/src
@@ -38,11 +37,11 @@ services:
       - "${BACKEND_PORT:-8000}:8000"
     environment:
       SECRET_KEY: "${SECRET_KEY:-django-insecure-s9976%^!b_4zlbp%$$zrqd-d&7&wp4)7=$$&)@8u6_)1g9f%ax_i}"
-      FT_CLIENT_ID: "${FT_CLIENT_ID:-u-s4t2ud-b677e803809d207e81ae3a321bdf542af8d318ca330d81824e4b972bca224918}"
-      FT_CLIENT_SECRET: "${FT_CLIENT_SECRET:-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}"
-      HTTP_PROTOCOL: "${HTTP_PROTOCOL:-http}"
-      FRONT_IP: "${FRONT_IP:-127.0.0.1}"
-      FRONT_PORT: "${FRONT_PORT:-3000}"
+      FT_CLIENT_ID: "${FT_CLIENT_ID:-u-s4t2ud-d831bcb04e1f0e902f816b73f9472d53c10e56f908b04722099ac3db9c9c8209}"
+      FT_CLIENT_SECRET: "${FT_CLIENT_SECRET:-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}"
+      HTTP_PROTOCOL: "${HTTP_PROTOCOL:-https}"
+      FRONT_IP: "${FRONT_IP:-10.13.8.5}"
+      FRONT_PORT: "${FRONT_PORT:-443}"
       DATABASE_NAME: "${DATABASE_NAME:-pikapong}"
       DATABASE_USER: "${DATABASE_USER:-admin}"
       DATABASE_PASSWORD: "${DATABASE_PASSWORD:-admin}"
