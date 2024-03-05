@@ -53,6 +53,7 @@ services:
       EMAIL_HOST_PASSWORD: "${EMAIL_HOST_PASSWORD}"
     volumes:
       - ./Transcendence-back/../tls:/reminder/tls/
+      - static:/reminder/media
   db:
     networks:
       - backend
@@ -94,5 +95,6 @@ networks:
         - subnet: 172.28.0.0/16
 
 volumes:
+  static:
   db:
   pgadmin:
