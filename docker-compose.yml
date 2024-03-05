@@ -29,8 +29,7 @@ services:
     depends_on:
       - db
     networks:
-      backend:
-        ipv4_address: 172.28.0.3
+      - backend
     image: ts/back
     build: ./Transcendence-back
     container_name: ts-back
@@ -46,7 +45,7 @@ services:
       DATABASE_NAME: "${DATABASE_NAME}"
       DATABASE_USER: "${DATABASE_USER}"
       DATABASE_PASSWORD: "${DATABASE_PASSWORD}"
-      DATABASE_HOST: "${DATABASE_HOST:-172.28.0.2}"
+      DATABASE_HOST: "${DATABASE_HOST:-ts-db}"
       DATABASE_PORT: "${DATABASE_PORT:-5432}"
       EMAIL_HOST: "${EMAIL_HOST:-smtp.gmail.com}"
       EMAIL_PORT: "${EMAIL_PORT:-587}"
@@ -56,8 +55,7 @@ services:
       - ./Transcendence-back/../tls:/reminder/tls/
   db:
     networks:
-      backend:
-        ipv4_address: 172.28.0.2
+      - backend
     image: postgres
     container_name: ts-db
     ports:
