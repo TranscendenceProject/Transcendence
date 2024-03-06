@@ -5,7 +5,7 @@
             "Group": "Servers",
             "Port": 5432,
             "Username": "admin",
-            "Host": "ts-back",
+            "Host": "ts-db",
             "SSLMode": "prefer",
             "MaintenanceDB": "pikapong"
         }
